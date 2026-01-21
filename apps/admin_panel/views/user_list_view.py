@@ -7,7 +7,7 @@ from django.core.cache import cache
 from apps.accounts.models.user_model import UserModel
 from apps.admin_panel.serializers.admin_serializer import AdminUserSerializer
 from apps.admin_panel.permissions.admin_permissions import IsAdminUser
-from apps.admin_panel.paginations import AdminUserPagination
+from apps.admin_panel.paginations import AdminPagination
 
 
 def get_user_stats():
@@ -73,7 +73,7 @@ class AdminUserListView(APIView):
             queryset = queryset.filter(is_blocked=True)
 
         # Pagination
-        paginator = AdminUserPagination()
+        paginator = AdminPagination()
         page = paginator.paginate_queryset(queryset, request)
 
         serializer = AdminUserSerializer(page, many=True)

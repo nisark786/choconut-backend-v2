@@ -11,7 +11,7 @@ from apps.admin_panel.permissions.admin_permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from django.core.cache import cache
-from apps.admin_panel.paginations import AdminOrderPagination
+from apps.admin_panel.paginations import AdminPagination
 from django.db.models import Q
 from apps.admin_panel.utils.cache_keys import clear_admin_order_stats_cache
 
@@ -59,7 +59,7 @@ class AdminOrderListView(APIView):
         if status_filter and status_filter != "all":
             queryset = queryset.filter(order_status=status_filter)
 
-        paginator = AdminOrderPagination()
+        paginator = AdminPagination()
         page = paginator.paginate_queryset(queryset, request)
 
         serializer = AdminOrderSerializer(page, many=True)
