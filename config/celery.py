@@ -16,14 +16,14 @@ app = Celery("config", broker="redis://127.0.0.1:6379/0", backend="redis://127.0
 # Load additional configuration from Django settings
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
-import django
-django.setup()
+
 
 # Auto-discover tasks from all installed apps
-app.autodiscover_tasks(['apps.accounts', 'apps.orders', 'apps.products'])
+app.autodiscover_tasks(['apps.accounts', 'apps.orders', 'apps.products', 'apps.admin_panel'])
 
 
 app.conf.imports = [
     'apps.accounts.tasks',
     'apps.orders.tasks',
+    'apps.admin_panel.tasks',
 ]

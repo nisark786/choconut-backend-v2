@@ -27,6 +27,9 @@ urlpatterns = [
     path("api/wishlist/", include("apps.wishlist.urls")),
     path("api/", include("apps.reviews.urls")),
     path("api/admin/", include("apps.admin_panel.urls")),
+    path("api/notifications/", include("apps.notifications.urls")),
+    path("api/", include("apps.chatboat.urls")),
+
 
 
     

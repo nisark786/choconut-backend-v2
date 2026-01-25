@@ -6,6 +6,7 @@ from apps.admin_panel.serializers.product_serializer import AdminProductSerializ
 from apps.admin_panel.permissions.admin_permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from django.db import transaction
+from apps.notifications.services import notify_users_stock_available
 
 class AdminProductDetailView(APIView):
     permission_classes = [IsAdminUser]
@@ -20,7 +21,11 @@ class AdminProductDetailView(APIView):
 
     @transaction.atomic
     def patch(self, request, product_id):
-        product = get_object_or_404(Product, id=product_id)
+        product = get_object_or_404(
+            Product.objects.select_for_update(),
+            id=product_id
+        )
+        old_stock = product.stock
         serializer = AdminProductUpdateSerializer(
             product,
             data=request.data,
@@ -28,6 +33,9 @@ class AdminProductDetailView(APIView):
         )
         serializer.is_valid(raise_exception=True)
         product = serializer.save()
+
+        if old_stock == 0 and product.stock > 0:
+            notify_users_stock_available(product)
         return Response(AdminProductSerializer(product).data)
 
     @transaction.atomic

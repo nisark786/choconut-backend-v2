@@ -3,6 +3,9 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -28,12 +31,15 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'daphne',
+    'channels',
     "rest_framework",
     "rest_framework.authtoken",
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "django_filters",
     'drf_yasg',
+    "django_celery_beat",
     
 ]
 
@@ -46,9 +52,11 @@ LOCAL_APPS = [
     "apps.wishlist",
     "apps.reviews",
     "apps.admin_panel",
+    "apps.notifications",
+    "apps.chatboat",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 
 AUTHENTICATION_BACKENDS = [
     'apps.accounts.backends.EmailBackend', 
@@ -161,3 +169,27 @@ CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/1"
+
+
+
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True
+)
+
+ASGI_APPLICATION = "config.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379, 2)],
+        },
+    },
+}
+
+
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")

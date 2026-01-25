@@ -7,8 +7,6 @@ from apps.products.serializers.product_serializer import ProductSerializer
 from apps.products.pagination import ProductPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 
 class ProductViewSet(ModelViewSet):
     permission_classes = []
@@ -32,12 +30,11 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ["price", "created_at"]
     ordering = ["-created_at"]
 
-    @method_decorator(cache_page(60 * 15))
+ 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
 
-    @method_decorator(cache_page(60 * 15))
     @action(detail=False, methods=['get'])
     def premium(self, request):
         premium_products = Product.objects.select_related("category").filter(

@@ -8,8 +8,14 @@ class Payment(models.Model):
         ("SUCCESS", "Success"),
         ("FAILED", "Failed"),
     )
-
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
+    user = models.ForeignKey("accounts.UserModel", on_delete=models.CASCADE, null=True)
+    order = models.OneToOneField(
+        "orders.Order", 
+        on_delete=models.CASCADE, 
+        related_name="payment",
+        null=True, 
+        blank=True
+    )
     gateway = models.CharField(max_length=50, default="razorpay")
     gateway_order_id = models.CharField(max_length=255, blank=True, null=True)
     gateway_payment_id = models.CharField(max_length=255, blank=True, null=True)
