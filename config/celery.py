@@ -11,7 +11,8 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
 
 # Create Celery app
-app = Celery("config", broker="redis://127.0.0.1:6379/0", backend="redis://127.0.0.1:6379/1")
+app = Celery("config")
+
 
 # Load additional configuration from Django settings
 app.config_from_object("django.conf:settings", namespace="CELERY")

@@ -4,8 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -17,8 +16,6 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY
 SECRET_KEY = config("SECRET_KEY")
-DEBUG = False
-ALLOWED_HOSTS = []
 
 # APPLICATIONS
 DJANGO_APPS = [
@@ -165,10 +162,10 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", "redis://redis:6379/0")
 CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/1"
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND", "redis://redis:6379/1")
 
 
 
@@ -186,10 +183,18 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379, 2)],
+            "hosts": [(os.getenv("REDIS_HOST", "redis"), int(os.getenv("REDIS_PORT", 6379)))],
         },
     },
 }
 
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+
+DATABASES = {
+    "default": dj_database_url.config(
+        default=config("DATABASE_URL"),
+        conn_max_age=600,
+    )
+}

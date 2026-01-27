@@ -5,17 +5,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("DB_NAME"),
-        "USER": config("DB_USER"),
-        "PASSWORD": config("DB_PASSWORD"),
-        "HOST": config("DB_HOST"),
-        "PORT": config("DB_PORT", cast=int),
-    }
-}
-
 # CORS (Frontend Domain)
 CORS_ALLOWED_ORIGINS = [
     config("FRONTEND_URL"),
@@ -52,3 +41,12 @@ LOGGING = {
         "level": "INFO",
     },
 }
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = [
+    "authorization",
+    "content-type",
+    "x-csrftoken",
+    "x-requested-with",
+]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
