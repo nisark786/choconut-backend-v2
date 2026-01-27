@@ -29,5 +29,5 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            yourdockerhubusername/backend:latest
-            yourdockerhubusername/backend:${{ github.sha }}
+            nisark786/backend:latest
+            nisark786/backend:${{ github.sha }}
