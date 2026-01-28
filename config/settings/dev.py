@@ -4,20 +4,28 @@ from decouple import config
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = [
+    "13.60.70.161", 
+    "13.60.70.161.nip.io", 
+    "localhost", 
+    "127.0.0.1",
+    "0.0.0.0"
+]
 
 
 # CORS (React Dev Server)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://13.60.70.161",
+    "http://13.60.70.161.nip.io",
 ]
-
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
+    "http://13.60.70.161",
+    "http://13.60.70.161.nip.io"
 ]
-
 
 
 # SECURITY (Relaxed for dev)
@@ -37,7 +45,7 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = f"Choconut <{EMAIL_HOST_USER}>"
 
 
-FRONTEND_URL = "http://localhost:5173"  # dev
+FRONTEND_URL = "http://13.60.70.161.nip.io"
 
 
 

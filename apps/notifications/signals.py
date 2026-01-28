@@ -11,27 +11,30 @@ from apps.notifications.services import create_user_notification
 
 @receiver(post_save, sender=Order)
 def order_notification_handler(sender, instance, created, **kwargs):
+    # Only fire when the order is BRAND NEW
     if not created:
         return
 
+    # Use a 'flag' to prevent duplicate processing in the same request cycle
+    if hasattr(instance, '_notification_sent'):
+        return
+    instance._notification_sent = True
+
     channel_layer = get_channel_layer()
 
-    # 1️⃣ USER notification
-    create_user_notification(
+    # Create and fetch the notification in one clean flow
+    notif_obj = create_user_notification(
         user=instance.user,
         title="Order Placed",
         message=f"Your order #{instance.id} has been placed successfully!"
     )
-    latest = Notification.objects.filter(
-        recipient=instance.user,
-        recipient_type="USER"
-    ).latest("created_at")
-
+    
+    # Use the returned object directly instead of filtering the DB again
     async_to_sync(channel_layer.group_send)(
         f"user_{instance.user.id}",
         {
             "type": "send_notification",
-            "payload": NotificationSerializer(latest).data
+            "payload": NotificationSerializer(notif_obj).data
         }
     )
 
