@@ -198,3 +198,5 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+
+print("🍫 DEPLOYMENT CHECK: Version 2.0 - Clean Slate Active")
