@@ -35,7 +35,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/choconut-project/backend
+            # Pull the specific image we just built
             docker compose pull backend celery_worker celery_beat
-            # ADD THIS FLAG: --force-recreate
-            docker compose up -d --force-recreate backend celery_worker celery_beat
+            # Force recreate using the image code, not the local folder
+            docker compose up -d --force-recreate
             docker image prune -f
