@@ -37,17 +37,17 @@ jobs:
             cd ~/choconut-project/backend
             
             # 1. Stop the old containers completely
-            docker compose down
+            docker-compose down
             
             # 2. Nuclear Clean: Remove the old image to force a 100% fresh pull
             # -a removes all unused images, -f is force
             docker system prune -af
             
             # 3. Pull the absolute latest images from Docker Hub
-            docker compose pull
+            docker-compose pull
             
             # 4. Start fresh (migrations and collectstatic run via your compose command)
-            docker compose up -d
+            docker-compose up -d
             
             # 5. Clean up any dangling build cache
             docker builder prune -f
