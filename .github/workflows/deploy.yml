@@ -36,5 +36,6 @@ jobs:
           script: |
             cd ~/choconut-project/backend
             docker compose pull backend celery_worker celery_beat
-            docker compose up -d backend celery_worker celery_beat
+            # ADD THIS FLAG: --force-recreate
+            docker compose up -d --force-recreate backend celery_worker celery_beat
             docker image prune -f
