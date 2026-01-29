@@ -32,17 +32,6 @@ services:
       retries: 3
       start_period: 40s
 
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
-    image: nisark786/choconut-frontend:latest
-    container_name: choconut_frontend
-    volumes:
-      - frontend_assets:/app_assets
-    networks:
-      - choconut_network
-    restart: always
 
   celery_worker:
     image: nisark786/choconut-backend:latest
@@ -97,12 +86,10 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro # added :ro (read-only) for safety
-      - frontend_assets:/usr/share/nginx/html:ro
       - static_volume:/app/staticfiles:ro
       - ./media:/app/media:ro
     depends_on:
       - backend
-      - frontend
     networks:
       - choconut_network
     restart: always
