@@ -199,4 +199,3 @@ DATABASES = {
     )
 }
 
-print("🍫 DEPLOYMENT CHECK: Version 2.0 - Clean Slate Active")

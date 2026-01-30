@@ -31,6 +31,9 @@ KEYWORDS = {
     "gifting": [
         "gift", "gift box", "hamper", "festival",
         "wedding", "birthday", "anniversary"
+    ],
+    "responses": [
+        "yes","no"
     ]
 }
 

@@ -25,7 +25,7 @@ class ChatBotView(APIView):
         # 2. Safety Check / Guardrail
         if not is_chocolate_query(message):
             return Response({
-                "reply": "I specialize in our exquisite chocolate and nut collections. How can I assist you with those today?"
+                "reply": "I specialize in our exquisite chocolate and nut collections. please ask about that?"
             })
 
         # 3. Call service with history
