@@ -9,7 +9,8 @@ ALLOWED_HOSTS = [
     "13.60.70.161.nip.io", 
     "localhost", 
     "127.0.0.1",
-    "0.0.0.0"
+    "0.0.0.0",
+    "https://choconut.vercel.app",
 ]
 
 
@@ -20,6 +21,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://13.60.70.161",
     "http://13.60.70.161.nip.io",
     "https://choconut.netlify.app",
+    "https://choconut.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -27,6 +29,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://13.60.70.161",
     "http://13.60.70.161.nip.io",
     "https://choconut.netlify.app",
+    "https://choconut.vercel.app",
 ]
 
 
