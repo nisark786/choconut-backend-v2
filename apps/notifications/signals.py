@@ -86,7 +86,7 @@ def notify_user_on_status_change(sender, instance, created, **kwargs):
     }
 
     title = f"{STATUS_MESSAGES.get(new_status, new_status)}"
-    message = f"Order #{instance.id}: Is Ready Now"
+    message = f"Order #{instance.id}: Is {new_status}"
 
     # 1️⃣ Save notification
     create_user_notification(
