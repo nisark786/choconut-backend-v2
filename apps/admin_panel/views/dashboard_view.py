@@ -7,13 +7,13 @@ from apps.orders.models.order_item_model import OrderItem
 from apps.products.models.product_model import Product
 from apps.accounts.models.user_model import UserModel
 from apps.admin_panel.permissions.admin_permissions import IsAdminUser
-
+from rest_framework import status
 
 class AdminDashboardOverviewView(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
-        # === BASIC STATS ===
+        
         total_revenue = Order.objects.filter(
             payment_status="PAID"
         ).aggregate(total=Sum("total_amount"))["total"] or 0
@@ -25,7 +25,7 @@ class AdminDashboardOverviewView(APIView):
             "total_users": UserModel.objects.count(),
         }
 
-        # === MONTHLY REVENUE ===
+       
         monthly_qs = (
             Order.objects
             .filter(payment_status="PAID")
@@ -43,14 +43,13 @@ class AdminDashboardOverviewView(APIView):
             for m in monthly_qs
         ]
 
-        # === ORDER STATUS ===
+      
         order_status = (
             Order.objects
             .values("order_status")
             .annotate(count=Count("id"))
         )
 
-        # === TOP PRODUCTS ===
         top_products = (
             OrderItem.objects
             .values("product__name")
@@ -69,4 +68,4 @@ class AdminDashboardOverviewView(APIView):
                 }
                 for p in top_products
             ]
-        })
+        },status=status.HTTP_200_OK)

@@ -17,24 +17,24 @@ class ChatBotView(APIView):
         if is_greeting(message):
             return Response({
                 "reply": greeting_response()
-            })
+            },status=status.HTTP_200_OK)
 
-        # 1. Retrieve existing history from the session (or empty list if new)
+       
         history = request.session.get('chat_history', [])
 
-        # 2. Safety Check / Guardrail
+   
         if not is_chocolate_query(message):
             return Response({
                 "reply": "I specialize in our exquisite chocolate and nut collections. please ask about that?"
-            })
+            },status=status.HTTP_200_OK)
 
-        # 3. Call service with history
+     
         reply, updated_history = ask_gemini(message, history)
 
        
         request.session['chat_history'] = updated_history
 
-        return Response({"reply": reply})
+        return Response({"reply": reply},status=status.HTTP_200_OK)
     
 
 class ClearChatView(APIView):

@@ -58,7 +58,6 @@ def is_chocolate_query(message: str) -> bool:
 def is_greeting(message: str) -> bool:
     msg = message.lower().strip()
 
-    # Exact match or startswith to avoid false positives
     return any(
         msg == g or msg.startswith(g + " ")
         for g in GREETINGS

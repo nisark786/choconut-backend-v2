@@ -1,4 +1,4 @@
-# apps/notifications/tasks.py (or a similar utility file)
+
 from celery import shared_task
 from apps.notifications.models import Notification
 from apps.notifications.serializers import NotificationSerializer
@@ -11,7 +11,7 @@ from apps.notifications.services import create_user_notification
 def send_bulk_notification(title, message, user_ids=None):
     channel_layer = get_channel_layer()
     
-    # If user_ids is None, target all active users
+   
     if user_ids is None:
         recipients = UserModel.objects.filter(is_active=True,is_staff=False)
     else:
@@ -24,7 +24,7 @@ def send_bulk_notification(title, message, user_ids=None):
             recipient_type="USER"
         ).latest("created_at")
         
-        # Push to WebSocket
+       
         async_to_sync(channel_layer.group_send)(
             f"user_{user.id}",
             {

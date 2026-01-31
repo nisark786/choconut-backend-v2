@@ -1,4 +1,4 @@
-# apps/orders/models/order_address_model.py
+
 from django.db import models
 from .order_model import Order
 

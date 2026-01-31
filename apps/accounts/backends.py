@@ -1,4 +1,4 @@
-# apps/accounts/backends.py
+
 from django.contrib.auth.backends import ModelBackend
 from apps.accounts.models.user_model import UserModel
 

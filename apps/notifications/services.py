@@ -6,7 +6,6 @@ from .serializers import NotificationSerializer
 MAX_USER_NOTIFICATIONS = 10
 
 def create_user_notification(user, title, message):
-    # 1. Create new notification
     new_notif = Notification.objects.create(
         recipient=user,
         recipient_type="USER",
@@ -14,14 +13,13 @@ def create_user_notification(user, title, message):
         message=message
     )
 
-    # 2. Fetch user notifications IDs (ordered by newest first)
-    # We use values_list to keep the query light
+  
     notification_ids = Notification.objects.filter(
         recipient=user,
         recipient_type="USER"
     ).order_by("-created_at").values_list('id', flat=True)
 
-    # 3. Delete older ones beyond limit using the ID list
+    
     if len(notification_ids) > MAX_USER_NOTIFICATIONS:
         ids_to_delete = notification_ids[MAX_USER_NOTIFICATIONS:]
         Notification.objects.filter(id__in=list(ids_to_delete)).delete()
@@ -49,7 +47,7 @@ def notify_users_stock_available(product):
 
         payload = NotificationSerializer(latest_notification).data
         payload["product_id"] = product.id
-        # 2️⃣ Send WebSocket event
+       
         async_to_sync(channel_layer.group_send)(
             f"user_{entry.user.id}",
             {
@@ -58,5 +56,4 @@ def notify_users_stock_available(product):
             }
         )
 
-        # 3️⃣ DELETE notify-me entry (AUTO CLEANUP)
         entry.delete()

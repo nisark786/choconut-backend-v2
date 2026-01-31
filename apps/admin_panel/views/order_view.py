@@ -47,7 +47,7 @@ class AdminOrderListView(APIView):
             .order_by("-created_at")
         )
 
-        # 🔍 Search
+      
         if search:
             queryset = queryset.filter(
                 Q(id__icontains=search) |
@@ -55,7 +55,6 @@ class AdminOrderListView(APIView):
                 Q(user__email__icontains=search)
             )
 
-        # 🎯 Status Filter
         if status_filter and status_filter != "all":
             queryset = queryset.filter(order_status=status_filter)
 
@@ -81,4 +80,4 @@ class AdminOrderDetailView(APIView):
 
         transaction.on_commit(clear_admin_order_stats_cache)
 
-        return Response({"detail": "Order status updated"})
+        return Response({"detail": "Order status updated"},status=status.HTTP_200_OK)

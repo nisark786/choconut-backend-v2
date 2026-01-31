@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum, Count, Max, Avg
-
+from rest_framework import status
 from apps.orders.models.order_model import Order
 from apps.accounts.models.user_model import UserModel
 from apps.admin_panel.serializers.admin_serializer import AdminUserSerializer
@@ -52,4 +52,4 @@ class AdminUserDetailView(APIView):
             "user": AdminUserSerializer(user).data,
             "stats": stats,
             "orders": AdminOrderSerializer(recent_orders, many=True).data
-        })
+        },status=status.HTTP_200_OK)

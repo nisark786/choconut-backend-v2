@@ -5,7 +5,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS").split(",")
 
-# CORS (Frontend Domain)
+
 CORS_ALLOWED_ORIGINS = [
     config("FRONTEND_URL"),
 ]
@@ -14,7 +14,6 @@ CSRF_TRUSTED_ORIGINS = [
     config("FRONTEND_URL"),
 ]
 
-# SECURITY HARDENING
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
@@ -29,7 +28,7 @@ EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
-# LOGGING (IMPORTANT FOR CI/CD & PROD)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

@@ -16,7 +16,7 @@ class AdminUserActionSerializer(serializers.Serializer):
         request = self.context["request"]
         target_user: UserModel = self.context["target_user"]
 
-        # Prevent self-modification
+
         if target_user.id == request.user.id:
             raise serializers.ValidationError(
                 "You cannot perform this action on yourself"

@@ -22,7 +22,7 @@ class AdminNotificationListView(APIView):
         return Response({
             "notifications": NotificationSerializer(notifications, many=True).data,
             "unread_count": unread_count
-        })
+        },status=status.HTTP_200_OK)
 
 
 
@@ -32,7 +32,6 @@ class AdminBroadcastView(APIView):
     def post(self, request):
         title = request.data.get("title")
         message = request.data.get("message")
-        target_user_id = request.data.get("user_id") # Optional
         user_ids = request.data.get("user_ids", [])
 
         if not title or not message:
@@ -40,14 +39,14 @@ class AdminBroadcastView(APIView):
 
         send_bulk_notification.delay(title, message, user_ids if user_ids else None)
 
-        return Response({"detail": "Broadcast process initiated."})
+        return Response({"detail": "Broadcast process initiated."},status=status.HTTP_201_CREATED)
 
 
 class NotificationListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Fetch latest 10 notifications for the logged-in user
+   
         notifications = Notification.objects.filter(
             recipient=request.user,
             recipient_type="USER"
@@ -55,7 +54,7 @@ class NotificationListView(APIView):
         
         serializer = NotificationSerializer(notifications, many=True)
         
-        # We also send the unread count in the same request for convenience
+    
         unread_count = Notification.objects.filter(
             recipient=request.user, 
             is_read=False
@@ -87,7 +86,7 @@ class MarkNotificationReadView(APIView):
 
         return Response(
             {"message": "Notification marked as read"},
-            status=status.HTTP_200_OK
+            status=status.HTTP_201_CREATED
         )
     
 
@@ -142,5 +141,5 @@ class RemoveNotifyMeView(APIView):
 
         return Response(
             {"detail": "Removed from notify me"},
-            status=status.HTTP_200_OK
+            status=status.HTTP_204_NO_CONTENT
         )

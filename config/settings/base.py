@@ -14,10 +14,10 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 
-# SECURITY
+
 SECRET_KEY = config("SECRET_KEY")
 
-# APPLICATIONS
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -60,7 +60,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',   
 ]
 
-# MIDDLEWARE
+
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -74,7 +74,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
-# TEMPLATES (kept for admin only)
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -93,7 +93,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# PASSWORD VALIDATION
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -101,13 +100,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# LANGUAGE & TIME
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-# STATIC & MEDIA
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
@@ -116,7 +114,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# DRF CONFIG (API FIRST)
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
@@ -133,7 +131,7 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 12,
 }
 
-CORS_ALLOW_CREDENTIALS = True # Important for cross-origin requests
+CORS_ALLOW_CREDENTIALS = True 
 
 
 SIMPLE_JWT = {

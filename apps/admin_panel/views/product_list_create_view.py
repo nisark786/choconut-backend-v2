@@ -39,14 +39,13 @@ class AdminProductListCreateView(APIView):
             "category__name",
         ).order_by("-id")
 
-        # Search
+      
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) |
                 Q(description__icontains=search)
             )
 
-        # Filters
         if category:
             queryset = queryset.filter(category__name=category)
 
@@ -58,7 +57,7 @@ class AdminProductListCreateView(APIView):
         elif stock == "low":
             queryset = queryset.filter(stock__lte=5)
 
-        # Pagination
+      
         paginator = AdminPagination()
         page = paginator.paginate_queryset(queryset, request)
 

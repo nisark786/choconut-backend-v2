@@ -19,7 +19,7 @@ class CreatePaymentView(APIView):
                 return Response({"detail": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
         except Cart.DoesNotExist:
             return Response({"detail": "Cart not found"}, status=status.HTTP_400_BAD_REQUEST)
-        subtotal = cart.total_price  # Assuming your Cart model has a total_price property
+        subtotal = cart.total_price  
         shipping = 0 if subtotal > 499 else 49
         total_amount = subtotal + shipping
         razorpay_order = RazorpayService.create_order(

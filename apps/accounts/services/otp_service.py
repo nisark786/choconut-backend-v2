@@ -87,5 +87,5 @@ class OTPService:
         if cache.get(cache_key):
             raise ValueError("Please wait 60 seconds")
             
-        # If not in cache, set it for 60 seconds
+
         cache.set(cache_key, "true", timeout=60)

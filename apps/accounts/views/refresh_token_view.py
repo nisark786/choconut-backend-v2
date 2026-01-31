@@ -14,7 +14,7 @@ class CookieTokenRefreshView(TokenRefreshView):
         request.data["refresh"] = refresh
         response = super().post(request, *args, **kwargs)
 
-        # Update refresh cookie
+      
         if "refresh" in response.data:
             response.set_cookie(
                 key="refresh_token",

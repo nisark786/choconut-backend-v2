@@ -7,19 +7,15 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(os.path.join(BASE_DIR, ".env"))
-# Set Django settings module
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
 
-# Create Celery app
 app = Celery("config")
 
 
-# Load additional configuration from Django settings
 app.config_from_object("django.conf:settings", namespace="CELERY")
 
 
 
-# Auto-discover tasks from all installed apps
 app.autodiscover_tasks(['apps.accounts', 'apps.orders', 'apps.products', 'apps.admin_panel'])
 
 

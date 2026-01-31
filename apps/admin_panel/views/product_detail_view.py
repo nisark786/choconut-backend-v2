@@ -17,7 +17,7 @@ class AdminProductDetailView(APIView):
             id=product_id
         )
         serializer = AdminProductSerializer(product)
-        return Response(serializer.data)
+        return Response(serializer.data,status=status.HTTP_200_OK)
 
     @transaction.atomic
     def patch(self, request, product_id):
@@ -36,7 +36,7 @@ class AdminProductDetailView(APIView):
 
         if old_stock == 0 and product.stock > 0:
             notify_users_stock_available(product)
-        return Response(AdminProductSerializer(product).data)
+        return Response(AdminProductSerializer(product).data,status=status.HTTP_200_OK)
 
     @transaction.atomic
     def delete(self, request, product_id):

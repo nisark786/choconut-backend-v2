@@ -1,4 +1,4 @@
-# apps/orders/serializers/order_address_serializer.py
+
 from rest_framework import serializers
 from apps.orders.models.order_address_model import OrderAddress
 

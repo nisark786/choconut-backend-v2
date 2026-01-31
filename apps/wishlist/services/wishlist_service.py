@@ -36,7 +36,7 @@ class WishlistService:
         
         if item_queryset.exists():
             item_queryset.delete()
-            return False # Means "Removed"
+            return False 
         else:
             WishlistItem.objects.create(wishlist=wishlist, product_id=product_id)
-            return True # Means "Added"
+            return True 

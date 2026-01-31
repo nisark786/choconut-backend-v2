@@ -14,7 +14,7 @@ class RazorpayService:
     def create_order(amount, receipt):
         client = RazorpayService.get_client()
         return client.order.create({
-            "amount": int(amount * 100),  # convert to paise
+            "amount": int(amount * 100),  
             "currency": "INR",
             "receipt": receipt,
             "payment_capture": 1

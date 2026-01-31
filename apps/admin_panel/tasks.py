@@ -6,7 +6,7 @@ from .services.image_service import process_image_url
 def upload_product_image_task(product_id, image_url):
     try:
         product = Product.objects.get(id=product_id)
-        # Only process if the image hasn't already been moved to Cloudinary
+        
         if "cloudinary" not in product.image:
             new_url = process_image_url(image_url)
             product.image = new_url

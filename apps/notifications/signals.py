@@ -11,25 +11,25 @@ from apps.notifications.services import create_user_notification
 
 @receiver(post_save, sender=Order)
 def order_notification_handler(sender, instance, created, **kwargs):
-    # Only fire when the order is BRAND NEW
+    
     if not created:
         return
 
-    # Use a 'flag' to prevent duplicate processing in the same request cycle
+ 
     if hasattr(instance, '_notification_sent'):
         return
     instance._notification_sent = True
 
     channel_layer = get_channel_layer()
 
-    # Create and fetch the notification in one clean flow
+   
     notif_obj = create_user_notification(
         user=instance.user,
         title="Order Placed",
         message=f"Your order #{instance.id} has been placed successfully!"
     )
     
-    # Use the returned object directly instead of filtering the DB again
+   
     async_to_sync(channel_layer.group_send)(
         f"user_{instance.user.id}",
         {
@@ -76,7 +76,7 @@ def notify_user_on_status_change(sender, instance, created, **kwargs):
     new_status = instance.order_status
 
     if old_status == new_status:
-        return  # No change → no notification
+        return 
 
     STATUS_MESSAGES = {
         "PROCESSING": "Your order is being processed",
@@ -88,7 +88,7 @@ def notify_user_on_status_change(sender, instance, created, **kwargs):
     title = f"{STATUS_MESSAGES.get(new_status, new_status)}"
     message = f"Order #{instance.id}: Is {new_status}"
 
-    # 1️⃣ Save notification
+  
     create_user_notification(
         user=instance.user,
         title=title,
@@ -99,7 +99,7 @@ def notify_user_on_status_change(sender, instance, created, **kwargs):
         recipient_type="USER"
     ).latest("created_at")
 
-    # 2️⃣ Push via WebSocket
+    
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
         f"user_{instance.user.id}",

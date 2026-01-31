@@ -1,4 +1,4 @@
-# apps/orders/views/order_address_view.py
+
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -26,7 +26,7 @@ class OrderAddressView(APIView):
         address_id = request.data.get("address_id")
 
         if address_id:
-            # CASE: Existing address
+            
             try:
                 address = OrderAddress.objects.get(id=address_id, order__user=request.user)
             except OrderAddress.DoesNotExist:

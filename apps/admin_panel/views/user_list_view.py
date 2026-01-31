@@ -27,7 +27,7 @@ def get_user_stats():
                 date_joined__year=now().year
             ).count(),
         }
-        cache.set(cache_key, stats, timeout=300)  # cache for 5 minutes
+        cache.set(cache_key, stats, timeout=300)
 
     return stats
 
@@ -41,7 +41,7 @@ class AdminUserListView(APIView):
         status_filter = request.query_params.get("status")
         include_orders = request.query_params.get("include_orders") == "true"
 
-        # Base queryset (minimized fields)
+        
         queryset = UserModel.objects.only(
             "id",
             "name",
@@ -52,13 +52,13 @@ class AdminUserListView(APIView):
             "date_joined",
         ).order_by("-date_joined")
 
-        # Conditional orders count (PERFORMANCE)
+        
         if include_orders:
             queryset = queryset.annotate(
                 orders_count=Count("orders", distinct=True)
             )
 
-        # Search
+      
         if search:
             queryset = queryset.filter(
                 Q(name__icontains=search) |
@@ -72,7 +72,7 @@ class AdminUserListView(APIView):
         elif status_filter == "blocked":
             queryset = queryset.filter(is_blocked=True)
 
-        # Pagination
+ 
         paginator = AdminPagination()
         page = paginator.paginate_queryset(queryset, request)
 
